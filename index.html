@@ -3,128 +3,137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fatima Heart</title>
+<title>Heart Animation</title>
 
 <style>
-/* Dark premium background */
 body{
   margin:0;
   height:100vh;
   display:flex;
   justify-content:center;
   align-items:center;
-  background: radial-gradient(circle at center, #0f172a, #020617);
-  font-family: 'Segoe UI', sans-serif;
+  background:#0b0f14;
+  font-family:Arial, sans-serif;
   overflow:hidden;
 }
 
-/* Premium button */
+/* Button style */
 button{
   padding:15px 40px;
-  font-size:18px;
-  background: linear-gradient(45deg,#ec4899,#8b5cf6);
+  font-size:20px;
   border:none;
-  border-radius:30px;
+  border-radius:50px;
+  background:#ff2e63;
   color:white;
   cursor:pointer;
-  box-shadow:0 0 20px rgba(236,72,153,0.6);
+  box-shadow:0 0 20px rgba(255,46,99,0.6);
   transition:0.3s;
 }
 
 button:hover{
   transform:scale(1.1);
-  box-shadow:0 0 40px rgba(236,72,153,1);
+  box-shadow:0 0 40px rgba(255,46,99,1);
+}
+
+/* Heart container */
+.heart-container{
+  position:absolute;
+  display:none;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
 }
 
 /* Heart shape */
 .heart{
-  position:absolute;
-  width:200px;
-  height:200px;
-  background: linear-gradient(45deg,#ff0055,#ff4da6);
-  transform: rotate(45deg) scale(0);
-  animation: pop 0.8s forwards;
-  box-shadow:
-    0 0 40px #ff0055,
-    0 0 80px #ff0055,
-    0 0 120px #ff0055;
+  width:150px;
+  height:150px;
+  background:#ff2e63;
+  position:relative;
+  transform:rotate(-45deg) scale(0);
+  animation:pop 1s forwards;
+  box-shadow:0 0 50px #ff2e63;
 }
 
 .heart::before,
 .heart::after{
   content:"";
-  position:absolute;
-  width:200px;
-  height:200px;
-  background: inherit;
+  width:150px;
+  height:150px;
+  background:#ff2e63;
   border-radius:50%;
+  position:absolute;
 }
 
 .heart::before{
-  top:-100px;
+  top:-75px;
   left:0;
 }
 
 .heart::after{
-  left:-100px;
+  left:75px;
   top:0;
 }
 
-/* Name text */
-.name{
+/* Text inside heart */
+.text{
   position:absolute;
   color:white;
-  font-size:32px;
+  font-size:24px;
   font-weight:bold;
-  transform: scale(0);
-  animation: textPop 0.8s 0.5s forwards;
-  text-shadow:0 0 20px #fff, 0 0 40px #ff4da6;
+  
+  opacity:0;
+  animation:fadeIn 1s forwards;
+  animation-delay:0.8s;
 }
 
 /* Animations */
 @keyframes pop{
-  0%{ transform:rotate(45deg) scale(0); }
-  80%{ transform:rotate(45deg) scale(1.2); }
-  100%{ transform:rotate(45deg) scale(1); }
+  0%{
+    transform:rotate(-45deg) scale(0);
+  }
+  60%{
+    transform:rotate(-45deg) scale(1.2);
+  }
+  100%{
+    transform:rotate(-45deg) scale(1);
+  }
 }
 
-@keyframes textPop{
-  to{ transform: scale(1); }
+@keyframes fadeIn{
+  to{
+    opacity:1;
+  }
 }
 
+/* floating effect */
+@keyframes float{
+  0%,100%{
+    transform:rotate(-45deg) translateY(0);
+  }
+  50%{
+    transform:rotate(-45deg) translateY(20px);
+  }
+}
+
+.float{
+  animation:float 2s infinite ease-in-out;
+}
 </style>
 </head>
 <body>
 
-<button onclick="createHeart()">Click Me</button>
+<button onclick="showHeart()">Open</button>
+
+<div class="heart-container" id="heartBox">
+  <div class="heart float"></div>
+  <div class="text">Fatima</div>
+</div>
 
 <script>
-function createHeart(){
-
-  // remove old heart if exists
-  const oldHeart = document.querySelector('.heart');
-  const oldName = document.querySelector('.name');
-  if(oldHeart) oldHeart.remove();
-  if(oldName) oldName.remove();
-
-  // create heart
-  const heart = document.createElement('div');
-  heart.className = 'heart';
-
-  // create name
-  const name = document.createElement('div');
-  name.className = 'name';
-  name.innerText = 'Fatima';
-
-  document.body.appendChild(heart);
-  document.body.appendChild(name);
-
-  // center positioning
-  heart.style.left = 'calc(50% - 100px)';
-  heart.style.top = 'calc(50% - 100px)';
-
-  name.style.left = 'calc(50% - 60px)';
-  name.style.top = 'calc(50% - 20px)';
+function showHeart(){
+  document.querySelector("button").style.display="none";
+  document.getElementById("heartBox").style.display="flex";
 }
 </script>
 
